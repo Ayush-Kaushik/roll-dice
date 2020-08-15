@@ -1,14 +1,16 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+import {Card} from '@material-ui/core';
 
 const useStyles = makeStyles({
-    root: {
-        border: 0,
-        borderRadius: '0.5px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        height: 50,
-        width: 50
+    card: {
+        borderRadius: "5px",
+        margin: "10px"
     },
+    image: {
+        height: "100px",
+        width: "100px"
+    }
 });
 
 
@@ -17,10 +19,14 @@ const Dice = (props) => {
 
     return (
         <React.Fragment>
-            <div key={props.diceValue}>
-                <img className={classes.root} src={require(`../../assets/dice0${props.diceValue}.png`)}
+            <Card
+                className={classes.card}
+                key={props.diceValue}
+                elevation={2}>
+                <img className={classes.image}
+                     src={require(`../../assets/dice0${props.diceValue}.png`)}
                      alt={props.diceValue}/>
-            </div>
+            </Card>
         </React.Fragment>
     )
 }
