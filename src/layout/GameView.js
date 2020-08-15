@@ -51,7 +51,9 @@ class GameView extends React.Component {
     }
 
     decrementDiceCount = () => {
-        this.props.dispatch({type: DECREMENT_DICE_COUNT});
+        if (this.props.numDice > 1) {
+            this.props.dispatch({type: DECREMENT_DICE_COUNT});
+        }
     };
 
     incrementDiceCount = () => {
@@ -59,11 +61,15 @@ class GameView extends React.Component {
     };
 
     incrementSides = () => {
-        this.props.dispatch({type: INCREMENT_DICE_FACE});
+        if (this.props.numFace < 6) {
+            this.props.dispatch({type: INCREMENT_DICE_FACE});
+        }
     };
 
     decrementSides = () => {
-        this.props.dispatch({type: DECREMENT_DICE_FACE});
+        if (this.props.numFace > 1) {
+            this.props.dispatch({type: DECREMENT_DICE_FACE});
+        }
     };
 
     rollDice = () => {
