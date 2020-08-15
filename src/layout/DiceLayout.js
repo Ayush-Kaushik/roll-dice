@@ -2,26 +2,39 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Dice from '../component/Dice';
 import Grid from '@material-ui/core/Grid';
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+    root: {
+        display: "flex",
+        flexDirection: "column"
+    },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start"
+    }
+});
 
 const DiceLayout = (props) => {
+    const classes = useStyles();
+
     return (
         <React.Fragment>
-            <Grid
-                container
-                direction="column"
-                justify="space-around"
-                alignItems="center"
-            >
+            <Grid className={classes.root}>
+                {console.log(props.resultArray)}
                 {props.resultArray.map((cellArray, index) => {
                     return (
                         <Grid
-                            container
-                            direction="row"
-                            justify="space-around"
-                            alignItems="flex-start"
+                            className={classes.row}
+                            key={index}
                         >
                             {cellArray.map((cell) => {
-                                return <Grid item><Dice key={index} diceValue={cell}/></Grid>
+                                return <Grid item>
+                                    <Dice
+                                        key={index}
+                                        diceValue={cell}/>
+                                </Grid>
                             })}
 
                         </Grid>
