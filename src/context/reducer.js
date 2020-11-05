@@ -6,7 +6,7 @@ import {
     DECREMENT_DICE_FACE,
     SET_DICE_ROLL,
     RESET
-} from './actionType';
+} from './types';
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
