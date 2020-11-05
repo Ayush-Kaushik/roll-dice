@@ -10,7 +10,9 @@ function App() {
 
     return (
         <ThemeContextProvider>
-            <GameView/>
+            <GameView style={{
+                height: "100%"
+            }}/>
         </ThemeContextProvider>
     );
 }

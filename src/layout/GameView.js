@@ -6,37 +6,41 @@ import {
     INCREMENT_DICE_FACE,
     DECREMENT_DICE_FACE,
     SET_DICE_ROLL
-} from '../context/actionType';
+} from '../context/types';
+import labels from "../constants/labels";
 import {Button, Card} from '@material-ui/core';
 import ControlLayout from "./ControlLayout";
 import DiceLayout from "./DiceLayout";
 import {withStyles} from '@material-ui/core/styles';
+import TitleLayout from "./TitleLayout";
 
-const useStyles = (theme) => ({
+const useStyles = () => ({
     root: {
+        minHeight: "100%",
         display: "flex",
-        minHeight: "100vh"
+        flexDirection: "column",
+        backgroundColor: "#303030"
     },
-    view: {
+    card: {
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: "auto",
         display: "flex",
-        flexGrow: "1",
-        flexShrink: "1",
-        flexBasis: "100%",
+        margin: "5%",
+        backgroundColor: "#424242"
     },
-    viewRight: {
-        overflow: "auto"
+    title: {
+        marginBottom: "2%",
+        backgroundColor: "#212121"
     },
-    controlWrapper: {
-        display: "flex",
-        justifyContent: "center",
+    control: {
         width: "100%",
-    },
-    controlInnerWrapper: {
+        verticalAlign: "top",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
-        width: "100%",
-        marginTop: "100px"
+        minHeight: "30%",
+        alignItems: "center"
     }
 });
 
@@ -74,76 +78,52 @@ class GameView extends React.Component {
 
     rollDice = () => {
         const totalDice = this.props.numDice;
-        let rowArray = [];
-        let cellArray = [];
+        let dices = [];
         let i = 0;
-        let counter = 0;
-        let diceCountLimit = totalDice - 1;
 
         while (i < totalDice) {
-            if (counter < 3) {
-                cellArray.push(Math.floor(Math.random() * this.props.numFace) + 1);
-                counter++;
-            } else {
-                counter = 0;
-                rowArray.push(cellArray);
-                cellArray = [];
-            }
-
-            if (i === diceCountLimit) {
-                if (cellArray.length < totalDice - 1) {
-                    cellArray.push(Math.floor(Math.random() * this.props.numFace) + 1);
-                }
-
-                rowArray.push(cellArray);
-                cellArray = [];
-            }
-
+            dices.push(Math.floor(Math.random() * this.props.numFace) + 1);
             i++;
         }
 
-        this.props.dispatch({type: SET_DICE_ROLL, payload: rowArray});
+        this.props.dispatch({type: SET_DICE_ROLL, payload: dices});
     };
 
     render() {
         const {classes} = this.props;
 
         return (
-            <div className={classes.root}>
-                <div className={classes.view}>
-                    <Card
-                        className={classes.controlWrapper}
-                        elevation={3}>
-                        <div className={classes.controlInnerWrapper}>
-                            <ControlLayout
-                                label={"Number of Dices"}
-                                decrementDice={this.decrementDiceCount}
-                                incrementDice={this.incrementDiceCount}
-                                diceValue={this.props.numDice}
-                            />
-
-                            <ControlLayout
-                                label={"Number of Sides"}
-                                decrementDice={this.decrementSides}
-                                incrementDice={this.incrementSides}
-                                diceValue={this.props.numFace}
-                            />
-                        </div>
-                        <div>
-                            <Button variant="outlined" onClick={this.rollDice}>
+            <section className={classes.root}>
+                <Card className={classes.title}>
+                    <TitleLayout/>
+                </Card>
+                <Card
+                    className={classes.card}>
+                    <div className={classes.control}>
+                        <ControlLayout
+                            label={labels.NUM_DICE}
+                            decrementDice={this.decrementDiceCount}
+                            incrementDice={this.incrementDiceCount}
+                            diceValue={this.props.numDice}
+                        />
+                        <div className={classes.buttonRoll}>
+                            <Button variant="contained" onClick={this.rollDice}>
                                 ROLL
                             </Button>
                         </div>
+                        <ControlLayout
+                            label={labels.NUM_SIDES}
+                            decrementDice={this.decrementSides}
+                            incrementDice={this.incrementSides}
+                            diceValue={this.props.numFace}
+                        />
+                    </div>
+                </Card>
 
-
-                    </Card>
-                </div>
-
-                <Card className={`${classes.view} ${classes.viewRight}`}
-                      elevation={3}>
+                <Card className={classes.card}>
                     <DiceLayout/>
                 </Card>
-            </div>
+            </section>
         );
     }
 }

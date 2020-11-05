@@ -7,12 +7,8 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles({
     root: {
         display: "flex",
-        flexDirection: "column"
-    },
-    row: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start"
+        flexWrap: "wrap",
+        justifyContent: "center"
     }
 });
 
@@ -20,28 +16,18 @@ const DiceLayout = (props) => {
     const classes = useStyles();
 
     return (
-        <React.Fragment>
+        <div>
             <Grid className={classes.root}>
-                {console.log(props.resultArray)}
-                {props.resultArray.map((cellArray, index) => {
-                    return (
-                        <Grid
-                            className={classes.row}
-                            key={index}
-                        >
-                            {cellArray.map((cell) => {
-                                return <Grid item>
-                                    <Dice
-                                        key={index}
-                                        diceValue={cell}/>
-                                </Grid>
-                            })}
 
-                        </Grid>
+                {console.log(props.resultArray)}
+
+                {props.resultArray.map((cell, index) => {
+                    return (
+                        <Dice key={index} diceValue={cell}/>
                     )
                 })}
             </Grid>
-        </React.Fragment>
+        </div>
     );
 };
 
